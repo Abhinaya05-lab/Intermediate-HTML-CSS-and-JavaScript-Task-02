@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Menu - Delicious Bites</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <nav class="navbar">
+      <div class="logo">Delicious Bites</div>
+      <ul class="nav-links">
+        <li><a href="Home.html">Home</a></li>
+        <li><a href="Menu.html">Menu</a></li>
+        <li><a href="AboutUs.html">About Us</a></li>
+        <li><a href="contact-us.html">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Manage Your Favorites</h2>
+
+    <!-- To-Do List Section -->
+    <section class="card">
+      <h3>🍽️ Dish Task Manager</h3>
+      <div class="input-group">
+        <input type="text" id="taskInput" placeholder="Enter a new dish...">
+        <button onclick="addTask()">Add Dish</button>
+      </div>
+      <ul id="taskList"></ul>
+    </section>
+
+    <!-- Image Gallery Section -->
+    <section class="card">
+      <h3>📸 Dynamic Image Gallery</h3>
+      <div class="input-group">
+        <input type="file" id="imageInput" multiple accept="image/*">
+        <button onclick="addImages()">Add Images</button>
+      </div>
+      <div id="gallery" class="gallery"></div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2025 Delicious Bites. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript for To-Do List and Image Gallery -->
+  <script>
+    function addTask() {
+      const taskInput = document.getElementById("taskInput");
+      const taskText = taskInput.value.trim();
+
+      if (taskText !== "") {
+        const taskList = document.getElementById("taskList");
+
+        const li = document.createElement("li");
+        li.textContent = taskText;
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "❌";
+        deleteBtn.className = "delete-btn";
+        deleteBtn.onclick = function() {
+          taskList.removeChild(li);
+        };
+
+        li.appendChild(deleteBtn);
+        taskList.appendChild(li);
+
+        taskInput.value = "";
+      } else {
+        alert("Please enter a dish name!");
+      }
+    }
+
+    function addImages() {
+      const imageInput = document.getElementById("imageInput");
+      const gallery = document.getElementById("gallery");
+
+      Array.from(imageInput.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const imgWrapper = document.createElement("div");
+          imgWrapper.className = "img-wrapper";
+
+          const img = document.createElement("img");
+          img.src = e.target.result;
+
+          const deleteBtn = document.createElement("button");
+          deleteBtn.textContent = "❌";
+          deleteBtn.className = "delete-btn";
+          deleteBtn.onclick = function() {
+            gallery.removeChild(imgWrapper);
+          };
+
+          imgWrapper.appendChild(img);
+          imgWrapper.appendChild(deleteBtn);
+          gallery.appendChild(imgWrapper);
+        };
+        reader.readAsDataURL(file);
+      });
+
+      imageInput.value = "";
+    }
+  </script>
+
+</body>
+</html>
